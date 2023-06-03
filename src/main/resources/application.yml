@@ -1,0 +1,61 @@
+server:
+  port: 32900
+  shutdown: graceful
+  reactive:
+    session:
+      timeout: 1m
+
+spring:
+  application:
+    name: edge-service
+  devtools:
+    livereload:
+      port: 50091
+    restart:
+      poll-interval: 10s
+      quiet-period: 2s
+  cloud:
+    gateway:
+      httpclient:
+        pool:
+          max-connections: 1000
+          max-idle-time: 20s
+          max-life-time: 60s
+          eviction-interval: 120s
+  security:
+    oauth2:
+      client:
+        registration:
+          customer1:
+            client-id: ms1
+            client-secret: szCAVPumWkSvvmDn0llCmmZJzN9X3ml8
+            scope: openid
+          customer2:
+            client-id: ms1
+            client-secret: 5zRiDYzkeoRTJiMTLK78oFw7gKMI0RnX
+            scope: openid
+          customer3:
+            client-id: ms1
+            client-secret: EaP2CJT5YYVMqLNSfbm5fhyyrs1k6319
+            scope: openid
+          customer4:
+            client-id: ms1
+            client-secret: q0ObmkiGORxfAkx3GlisnH6goFEIqbfk
+            scope: openid
+        provider:
+          customer1:
+            issuerUri: ${AUTH_SERVER_URL:http://localhost:38217}/realms/customer1
+          customer2:
+            issuerUri: ${AUTH_SERVER_URL:http://localhost:38217}/realms/customer2
+          customer3:
+            issuerUri: ${AUTH_SERVER_URL:http://localhost:38217}/realms/customer3
+          customer4:
+            issuerUri: ${AUTH_SERVER_URL:http://localhost:38217}/realms/customer4
+
+logging:
+  level:
+    tech.jhipster: ${INTERNAL_LOGS:DEBUG}
+    reactor.netty: ${INTERNAL_LOGS:DEBUG}
+    io.github.resilience4j: ${INTERNAL_LOGS:DEBUG}
+    org.springframework.security: ${INTERNAL_LOGS:TRACE}
+    root: ${INTERNAL_LOGS:DEBUG}

@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1-0
+    container_name: keycloak-bb
+    command: start-dev --http-port 38217 --import-realm
+    volumes:
+      - ./keycloak/data:/opt/keycloak/data/import
+      - ./keycloak/health-check.sh:/opt/keycloak/health-check.sh
+    environment:
+      - KEYCLOAK_ADMIN=user
+      - KEYCLOAK_ADMIN_PASSWORD=password
+      - KC_HTTP_PORT=38217
+      - KC_HEALTH_ENABLED=true
+    ports:
+      - "127.0.0.1:38217:38217"
+    healthcheck:
+        test: "bash /opt/keycloak/health-check.sh"
+        interval: 5s
+        timeout: 10s
+        retries: 12
+  edge-service:
+    image: es:0.0.1-SNAPSHOT
+    container_name: edge-service-bb
+    environment:
+      - AUTH_SERVER_URL=http://keycloak:38217
+      - INTERNAL_LOGS=INFO
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:32900:32900"
