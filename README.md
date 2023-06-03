@@ -20,7 +20,7 @@ After KeyCloak 21 (see [issue](https://github.com/keycloak/keycloak/pull/16879))
 See: [health-check](src/main/docker/keycloak/health-check.sh) by [this stackoverflow answer](https://stackoverflow.com/a/75693900/9010238)
 and  [compose.yaml](src/main/docker/compose.yaml) that is using this script. 
 
-We have two services (keycloak and api-gateway) in docker-compose.
+We have two services (keycloak and edge-service) in docker-compose.
 This application (edge-service) has graalvm native image that starts within seconds while keycloak takes 6-30 seconds to start,
 So this application have to wait 6-30 seconds for KC as it needs to register oidc clients during startup.
 As we cannot use `curl` command in KC container, so we are using custom script in keycloak service health check as mentioned above. 
