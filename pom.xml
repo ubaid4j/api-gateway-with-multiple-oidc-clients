@@ -14,7 +14,7 @@
 	<name>es</name>
 	<description>Minimal project to reproduce the issue of not able to use custom web client in reactive nimbus jwt decoder while verify the signature using oidc flow</description>
 	<properties>
-		<java.version>20</java.version>
+		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>
@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-oauth2-client</artifactId>
-			<version>6.1.1-SNAPSHOT</version>
+<!--			<version>6.1.1-SNAPSHOT</version>-->
 		</dependency>
 
 		<dependency>
@@ -73,4 +73,35 @@
 		</plugins>
 	</build>
 
+	<profiles>
+
+		<!-- for building native image and publishing to github container registry -->
+		<profile>
+			<id>ci</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<image>
+								<name>ghcr.io/ubaid4j/${project.artifactId}:${project.version}</name>
+								<env>
+									<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+								</env>
+							</image>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.graalvm.buildtools</groupId>
+						<artifactId>native-maven-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

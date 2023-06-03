@@ -5,7 +5,6 @@ import org.springframework.cloud.gateway.config.HttpClientProperties.Pool;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -17,7 +16,6 @@ import org.springframework.security.oauth2.client.oidc.authentication.ReactiveOi
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoderFactory;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
@@ -28,7 +26,7 @@ import reactor.netty.resources.ConnectionProvider;
 public class SecurityConfig {
 
     private static final Customizer<AuthorizeExchangeSpec> AUTHORIZE_EXCHANGE = (spec) -> spec
-        .pathMatchers(HttpMethod.GET, "/login/**", "/static/favicon.ico", "/index.html").permitAll()
+        .pathMatchers(HttpMethod.GET, "/login/**", "/favicon.ico", "/index.html").permitAll()
         .anyExchange()
         .authenticated();
 
@@ -46,6 +44,11 @@ public class SecurityConfig {
             .build();
     }
 
+    /**
+     *
+     * @param webClient: web client
+     * @return reactive jwt decoder factor with given web client
+     */
     @Bean
     ReactiveJwtDecoderFactory<ClientRegistration> reactiveJwtDecoderFactory(WebClient webClient) {
         ReactiveOidcIdTokenDecoderFactory reactiveJwtDecoderFactory = new ReactiveOidcIdTokenDecoderFactory();
@@ -53,6 +56,11 @@ public class SecurityConfig {
         return reactiveJwtDecoderFactory;
     }
 
+    /**
+     *
+     * @param props: http client props
+     * @return a webclient with custom connection provider
+     */
     @Bean
     WebClient webClient(HttpClientProperties props) {
         Pool pool = props.getPool();

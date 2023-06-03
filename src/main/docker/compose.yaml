@@ -20,7 +20,7 @@ services:
         timeout: 10s
         retries: 12
   edge-service:
-    image: es:0.0.1-SNAPSHOT
+    image: ghcr.io/ubaid4j/es:0.0.1-SNAPSHOT
     container_name: edge-service-bb
     environment:
       - AUTH_SERVER_URL=http://keycloak:38217
