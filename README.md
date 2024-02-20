@@ -25,3 +25,5 @@ This application (edge-service) has graalvm native image that starts within seco
 So this application have to wait 6-30 seconds for KC as it needs to register oidc clients during startup.
 As we cannot use `curl` command in KC container, so we are using custom script in keycloak service health check as mentioned above. 
 
+## Another Note:
+- Add `127.0.0.1 keycloak` entry in /etc/hosts file.

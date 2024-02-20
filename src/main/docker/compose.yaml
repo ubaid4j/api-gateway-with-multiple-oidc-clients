@@ -1,8 +1,8 @@
 version: "3.9"
 services:
-  keycloak-identity-server:
+  keycloak-identity-server-bb:
     image: quay.io/keycloak/keycloak:23.0.6
-    container_name: keycloak-identity-server
+    container_name: keycloak
     command: start-dev --http-port 38217 --import-realm
     volumes:
       - ./keycloak/data:/opt/keycloak/data/import
@@ -26,7 +26,7 @@ services:
       - AUTH_SERVER_URL=http://keycloak:38217
       - INTERNAL_LOGS=INFO
     depends_on:
-      keycloak:
+      keycloak-identity-server-bb:
         condition: service_healthy
     ports:
       - "127.0.0.1:32900:32900"
