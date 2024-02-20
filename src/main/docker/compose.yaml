@@ -1,8 +1,8 @@
 version: "3.9"
 services:
-  keycloak:
-    image: quay.io/keycloak/keycloak:21.1.1-0
-    container_name: keycloak-bb
+  keycloak-identity-server:
+    image: quay.io/keycloak/keycloak:23.0.6
+    container_name: keycloak-identity-server
     command: start-dev --http-port 38217 --import-realm
     volumes:
       - ./keycloak/data:/opt/keycloak/data/import
