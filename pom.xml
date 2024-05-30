@@ -97,7 +97,9 @@
 						<artifactId>native-maven-plugin</artifactId>
 						<configuration>
 							<buildArgs>
-								<buildArg>--initialize-at-build-time=org.springframework.boot.loader.nio.file.NestedFileSystemProvider</buildArg>
+								<buildArg>
+									--initialize-at-build-time=org.springframework.boot.loader.nio.file.NestedFileSystemProvider
+								</buildArg>
 							</buildArgs>
 						</configuration>
 					</plugin>
